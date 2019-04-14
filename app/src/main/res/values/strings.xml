@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">photo-editor</string>
+    <string name="app_name">Фоторедактор</string>
+    <string name="new_note">Новая запись</string>
+
 </resources>

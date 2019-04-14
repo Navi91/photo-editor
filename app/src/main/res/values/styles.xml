@@ -1,11 +1,34 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+    </style>
+
+    <style name="AppTextView">
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="AppTextView.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="AppTextView.16.Center">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ToolbarImageView">
+        <item name="android:layout_width">@dimen/toolbar_image_view_size</item>
+        <item name="android:layout_height">@dimen/toolbar_image_view_size</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
     </style>
 
 </resources>

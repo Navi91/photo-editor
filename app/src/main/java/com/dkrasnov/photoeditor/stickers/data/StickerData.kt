@@ -1,3 +1,9 @@
 package com.dkrasnov.photoeditor.stickers.data
 
-data class StickerData(val path: String)
+import android.net.Uri
+import com.dkrasnov.photoeditor.utils.covertToAssetsUriPath
+
+data class StickerData(val path: String) {
+
+    fun getUri() = Uri.parse(path.covertToAssetsUriPath())
+}

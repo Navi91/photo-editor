@@ -16,7 +16,7 @@
             android:layout_height="@dimen/sticker_selection_title_text_view_height"
             android:paddingLeft="@dimen/padding_16"
             android:paddingRight="@dimen/padding_16"
-            android:text="@string/stickers" />
+            android:text="@string/fonts" />
 
         <TextView
             android:id="@+id/robotoTextView"

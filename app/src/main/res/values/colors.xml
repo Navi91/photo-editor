@@ -5,4 +5,16 @@
     <color name="colorAccent">#528BCC</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="primaryTextColor">#2C2D2E</color>
+    <color name="background_source_white">#FFFFFF</color>
+    <color name="background_source_white_thumb">#EBEBEB</color>
+    <color name="background_source_blue_from">#30F2D2</color>
+    <color name="background_source_blue_to">#2E7AE6</color>
+    <color name="background_source_green_from">#CBE645</color>
+    <color name="background_source_green_to">#47B347</color>
+    <color name="background_source_orange_from">#FFCC33</color>
+    <color name="background_source_orange_to">#FF7733</color>
+    <color name="background_source_crimson_from">#FF3355</color>
+    <color name="background_source_crimson_to">#990F6B</color>
+    <color name="background_source_purple_from">#F8A6FF</color>
+    <color name="background_source_purple_to">#6C6CD9</color>
 </resources>

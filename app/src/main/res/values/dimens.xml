@@ -2,8 +2,8 @@
 <resources>
     <dimen name="toolbar_image_view_size">48dp</dimen>
     <dimen name="sticker_selection_bottom_dialog_peek_height">480dp</dimen>
-    <dimen name="sticker_selection_item_padding_left">8dp</dimen>
-    <dimen name="sticker_selection_item_padding_right">8dp</dimen>
+    <dimen name="background_selection_item_padding_left">8dp</dimen>
+    <dimen name="background_sticker_selection_item_padding_right">8dp</dimen>
     <dimen name="sticker_selection_title_text_view_height">56dp</dimen>
     <dimen name="font_selection_text_view_height">48dp</dimen>
 

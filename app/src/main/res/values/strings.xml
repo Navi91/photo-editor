@@ -2,5 +2,9 @@
     <string name="app_name">Фоторедактор</string>
     <string name="new_note">Новая запись</string>
     <string name="stickers">Стикеры</string>
+    <string name="fonts">Шрифты</string>
+    <string name="roboto_font_name">Roboto</string>
+    <string name="lobster_font_name">Lobster</string>
+    <string name="amatic_font_name">Amatic</string>
 
 </resources>

@@ -24,6 +24,18 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="AppTextView.24">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="AppTextView.24.Center">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="AppTextView.24.Center.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="ToolbarImageView">
         <item name="android:layout_width">@dimen/toolbar_image_view_size</item>
         <item name="android:layout_height">@dimen/toolbar_image_view_size</item>
@@ -31,13 +43,12 @@
         <item name="android:background">?selectableItemBackgroundBorderless</item>
     </style>
 
-    <style name="BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/bottomSheetStyleWrapper</item>
-        <item name="behavior_peekHeight">500dp</item>
-    </style>
-
-    <style name="bottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
-        <item name="behavior_peekHeight">500dp</item>
+    <style name="FontSelectionTextView" parent="AppTextView.16.Center">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/font_selection_text_view_height</item>
+        <item name="android:paddingLeft">@dimen/padding_16</item>
+        <item name="android:paddingRight">@dimen/padding_16</item>
+        <item name="android:background">?selectableItemBackground</item>
     </style>
 
 </resources>

@@ -3,7 +3,6 @@ package com.dkrasnov.photoeditor.stickers.presentation
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialogFragment
 import android.support.v7.widget.GridLayoutManager
-import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,8 +25,7 @@ class StickerSelectionBottomSheetDialog : BottomSheetDialogFragment() {
     private var listener: StickerSelectionListener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val contextThemeWrapper = ContextThemeWrapper(activity, R.style.BottomSheetDialog)
-        return inflater.cloneInContext(contextThemeWrapper).inflate(R.layout.d_stickers_selection, container, false)
+        return inflater.inflate(R.layout.d_stickers_selection, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,7 +50,7 @@ class StickerSelectionBottomSheetDialog : BottomSheetDialogFragment() {
 
     private fun setStickers(stickers: List<StickerData>) {
         val adapter = StickersSelectionAdapter { stickerData ->
-            listener?.onSticlerSelected(stickerData)
+            listener?.onStickerSelected(stickerData)
             dismiss()
         }.apply {
             setItems(stickers)
@@ -66,6 +64,6 @@ class StickerSelectionBottomSheetDialog : BottomSheetDialogFragment() {
     }
 
     interface StickerSelectionListener {
-        fun onSticlerSelected(stickerData: StickerData)
+        fun onStickerSelected(stickerData: StickerData)
     }
 }

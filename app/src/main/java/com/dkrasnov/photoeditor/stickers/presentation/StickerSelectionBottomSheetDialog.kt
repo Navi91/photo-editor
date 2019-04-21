@@ -1,9 +1,7 @@
 package com.dkrasnov.photoeditor.stickers.presentation
 
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialogFragment
-import android.support.design.widget.CoordinatorLayout
 import android.support.v7.widget.GridLayoutManager
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
@@ -25,6 +23,7 @@ class StickerSelectionBottomSheetDialog : BottomSheetDialogFragment() {
     }
 
     private var stickersDisposable: Disposable? = null
+    private var listener: StickerSelectionListener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val contextThemeWrapper = ContextThemeWrapper(activity, R.style.BottomSheetDialog)
@@ -33,8 +32,6 @@ class StickerSelectionBottomSheetDialog : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
 
         val spanCount = resources.getInteger(R.integer.sticker_selection_grid_span_count)
 
@@ -47,20 +44,6 @@ class StickerSelectionBottomSheetDialog : BottomSheetDialogFragment() {
         })
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-//        view?.post {
-//            val parent = view?.parent as View
-//            val params = parent.layoutParams as CoordinatorLayout.LayoutParams
-//            val behavior = params.behavior as BottomSheetBehavior
-//            behavior.peekHeight = 5000
-////            behavior.state = BottomSheetBehavior.STATE_EXPANDED
-//        }
-
-//            requireContext().resources.getDimensionPixelSize(R.dimen.sticker_selection_bottom_dialog_peek_height)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
 
@@ -68,10 +51,21 @@ class StickerSelectionBottomSheetDialog : BottomSheetDialogFragment() {
     }
 
     private fun setStickers(stickers: List<StickerData>) {
-        val adapter = StickersSelectionAdapter().apply {
+        val adapter = StickersSelectionAdapter { stickerData ->
+            listener?.onSticlerSelected(stickerData)
+            dismiss()
+        }.apply {
             setItems(stickers)
         }
 
         recyclerView.adapter = adapter
+    }
+
+    fun setListener(listener: StickerSelectionListener) {
+        this.listener = listener
+    }
+
+    interface StickerSelectionListener {
+        fun onSticlerSelected(stickerData: StickerData)
     }
 }

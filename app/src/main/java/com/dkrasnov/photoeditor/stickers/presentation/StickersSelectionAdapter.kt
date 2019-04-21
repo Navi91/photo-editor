@@ -10,7 +10,8 @@ import com.dkrasnov.photoeditor.glide.GlideApp
 import com.dkrasnov.photoeditor.stickers.data.StickerData
 import kotlinx.android.synthetic.main.v_sticker_selection_item.view.*
 
-class StickersSelectionAdapter : RecyclerView.Adapter<StickersSelectionAdapter.StickerSelectionItemViewHolder>() {
+class StickersSelectionAdapter(private val selectCallback: (StickerData) -> Unit) :
+    RecyclerView.Adapter<StickersSelectionAdapter.StickerSelectionItemViewHolder>() {
 
     private val items = mutableListOf<StickerData>()
 
@@ -23,8 +24,12 @@ class StickersSelectionAdapter : RecyclerView.Adapter<StickersSelectionAdapter.S
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): StickerSelectionItemViewHolder {
         return StickerSelectionItemViewHolder(
-            LayoutInflater.from(p0.context).inflate(R.layout.v_sticker_selection_item, p0, false)
-        )
+            LayoutInflater.from(p0.context).inflate(R.layout.v_sticker_selection_item, p0, false).apply { }
+        ).apply {
+            itemView.setOnClickListener {
+                selectCallback.invoke(items[adapterPosition])
+            }
+        }
     }
 
     override fun getItemCount(): Int = items.size

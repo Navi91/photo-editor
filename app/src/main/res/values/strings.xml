@@ -6,5 +6,6 @@
     <string name="roboto_font_name">Roboto</string>
     <string name="lobster_font_name">Lobster</string>
     <string name="amatic_font_name">Amatic</string>
+    <string name="save">Сохранить</string>
 
 </resources>

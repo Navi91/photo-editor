@@ -43,9 +43,9 @@ class BackgroundSelectionAdapter(
             val item = items[position]
 
             if (item is SourceBackgroundSelectionItem) {
-                itemView.imageView.setImageDrawable(item.getThumb(itemView.context))
+                itemView.imageView.background = item.getThumb(itemView.context)
             } else {
-                itemView.imageView.setImageResource(R.drawable.ic_toolbar_new)
+                itemView.imageView.setBackgroundResource(R.drawable.ic_toolbar_new)
             }
         }
     }

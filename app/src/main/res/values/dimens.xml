@@ -6,7 +6,11 @@
     <dimen name="background_sticker_selection_item_padding_right">8dp</dimen>
     <dimen name="sticker_selection_title_text_view_height">56dp</dimen>
     <dimen name="font_selection_text_view_height">48dp</dimen>
+    <dimen name="save_button_height">32dp</dimen>
+    <dimen name="save_button_corner_radius">4dp</dimen>
 
     <dimen name="padding_8">8dp</dimen>
     <dimen name="padding_16">16dp</dimen>
+
+    <dimen name="margin_16">16dp</dimen>
 </resources>

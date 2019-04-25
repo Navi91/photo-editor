@@ -19,7 +19,8 @@ import com.dkrasnov.photoeditor.stickers.data.StickerData
 import com.dkrasnov.photoeditor.stickers.presentation.StickerSelectionBottomSheetDialog
 import kotlinx.android.synthetic.main.a_main.*
 
-class MainActivity : AppCompatActivity(), StickerSelectionBottomSheetDialog.StickerSelectionListener,
+class MainActivity : AppCompatActivity(),
+    StickerSelectionBottomSheetDialog.StickerSelectionListener,
     FontSelectionBottomSheetDialog.FontSelectionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {

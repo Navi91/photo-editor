@@ -28,6 +28,7 @@ class BackgroundSelectionAdapter(
             itemView.setOnClickListener {
                 selectCallback.invoke(items[adapterPosition])
             }
+            itemView.imageView.clipToOutline = true
         }
     }
 

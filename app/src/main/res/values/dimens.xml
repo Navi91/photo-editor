@@ -8,6 +8,8 @@
     <dimen name="font_selection_text_view_height">48dp</dimen>
     <dimen name="save_button_height">32dp</dimen>
     <dimen name="save_button_corner_radius">4dp</dimen>
+    <dimen name="background_selection_item_corner_radius">4dp</dimen>
+    <dimen name="background_selection_item_border_width">2dp</dimen>
 
     <dimen name="padding_8">8dp</dimen>
     <dimen name="padding_16">16dp</dimen>

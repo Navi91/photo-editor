@@ -51,4 +51,12 @@
         <item name="android:background">?selectableItemBackground</item>
     </style>
 
+    <style name="UploadPhotoTextView" parent="AppTextView.16.Center">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/upload_photo_text_view_height</item>
+        <item name="android:paddingLeft">@dimen/padding_16</item>
+        <item name="android:paddingRight">@dimen/padding_16</item>
+        <item name="android:background">?selectableItemBackground</item>
+    </style>
+
 </resources>

@@ -17,6 +17,7 @@ import com.dkrasnov.photoeditor.fonts.data.Font
 import com.dkrasnov.photoeditor.fonts.presentation.FontSelectionBottomSheetDialog
 import com.dkrasnov.photoeditor.stickers.data.StickerData
 import com.dkrasnov.photoeditor.stickers.presentation.StickerSelectionBottomSheetDialog
+import com.dkrasnov.photoeditor.uploadphoto.UploadPhotoBottomSheetDialog
 import kotlinx.android.synthetic.main.a_main.*
 
 class MainActivity : AppCompatActivity(),
@@ -38,7 +39,9 @@ class MainActivity : AppCompatActivity(),
         items[0].selected = true
 
         val adapter = BackgroundSelectionAdapter { item ->
-
+            if (item is PlusBackgroundSelectionItem) {
+                showUploadPhotoDialog()
+            }
         }.apply {
             setItems(items)
         }
@@ -81,6 +84,11 @@ class MainActivity : AppCompatActivity(),
     override fun onFoneSelected(font: Font) {
         val typeface = ResourcesCompat.getFont(this, font.fontRes)
         helloWorldTextView.typeface = typeface
+    }
+
+    private fun showUploadPhotoDialog() {
+        val dialog = UploadPhotoBottomSheetDialog.newInstance()
+        dialog.show(supportFragmentManager, UploadPhotoBottomSheetDialog.TAG)
     }
 
     private fun showStickerSelectionDialog() {

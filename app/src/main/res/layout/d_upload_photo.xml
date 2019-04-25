@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/AppTextView.16"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/upload_photo_title_text_view_height"
+            android:paddingLeft="@dimen/padding_16"
+            android:paddingRight="@dimen/padding_16"
+            android:text="@string/upload_image" />
+
+        <TextView
+            android:id="@+id/galleryTextView"
+            style="@style/UploadPhotoTextView"
+            android:text="@string/from_gallery" />
+
+        <TextView
+            android:id="@+id/cameraTextView"
+            style="@style/UploadPhotoTextView"
+            android:text="@string/make_photo" />
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

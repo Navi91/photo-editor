@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dkrasnov.photoeditor.R
+import com.dkrasnov.photoeditor.utils.setVisible
 import kotlinx.android.synthetic.main.v_background_selection_item.view.*
 
 class BackgroundSelectionAdapter(
@@ -26,7 +27,11 @@ class BackgroundSelectionAdapter(
                 .inflate(R.layout.v_background_selection_item, container, false)
         ).apply {
             itemView.setOnClickListener {
-                selectCallback.invoke(items[adapterPosition])
+                val item = items[adapterPosition]
+                items.forEach { it.selected = false }
+                item.selected = true
+                notifyDataSetChanged()
+                selectCallback.invoke(item)
             }
             itemView.imageView.clipToOutline = true
         }
@@ -42,6 +47,8 @@ class BackgroundSelectionAdapter(
 
         fun bind(position: Int) {
             val item = items[position]
+
+            itemView.selectionView.setVisible(item.selected)
 
             if (item is SourceBackgroundSelectionItem) {
                 itemView.imageView.background = item.getThumb(itemView.context)

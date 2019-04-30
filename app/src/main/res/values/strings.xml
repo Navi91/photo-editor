@@ -10,5 +10,6 @@
     <string name="from_gallery">Из галереи</string>
     <string name="make_photo">Сделать фото</string>
     <string name="upload_image">Загрузить изображение</string>
+    <string name="select_photo">Выберите фото</string>
 
 </resources>

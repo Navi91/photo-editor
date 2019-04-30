@@ -27,7 +27,6 @@ class UploadPhotoBottomSheetDialog : BottomSheetDialogFragment() {
         return inflater.inflate(R.layout.d_upload_photo, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -36,7 +35,7 @@ class UploadPhotoBottomSheetDialog : BottomSheetDialogFragment() {
             dismiss()
         }
         cameraTextView.setOnClickListener {
-            listener?.onReuqestUploadPhotoFromCamera()
+            listener?.onRequestUploadPhotoFromCamera()
             dismiss()
         }
     }
@@ -49,6 +48,6 @@ class UploadPhotoBottomSheetDialog : BottomSheetDialogFragment() {
 
         fun onRequestUploadPhotoFromGallery()
 
-        fun onReuqestUploadPhotoFromCamera()
+        fun onRequestUploadPhotoFromCamera()
     }
 }

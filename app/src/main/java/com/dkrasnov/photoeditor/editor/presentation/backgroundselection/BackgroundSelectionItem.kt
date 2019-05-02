@@ -14,6 +14,7 @@ import com.dkrasnov.photoeditor.background.BeachBackgroundSource
 import com.dkrasnov.photoeditor.background.ColorBackgroundSource
 import com.dkrasnov.photoeditor.background.StartBackgroundSource
 import com.dkrasnov.photoeditor.utils.convertToAssetsUriPath
+import com.dkrasnov.photoeditor.utils.isDark
 
 sealed class BackgroundSelectionItem(var selected: Boolean = false) {
 
@@ -23,6 +24,15 @@ sealed class BackgroundSelectionItem(var selected: Boolean = false) {
 class SourceBackgroundSelectionItem(
     val source: BackgroundSource, selected: Boolean
 ) : BackgroundSelectionItem(selected) {
+
+    fun isDark(context: Context): Boolean {
+        return when (source) {
+            is StartBackgroundSource, is BeachBackgroundSource -> true
+            is ColorBackgroundSource -> {
+                ContextCompat.getColor(context, source.colorToRes).isDark()
+            }
+        }
+    }
 
     override fun getSource(context: Context): Any? {
         return when (source) {

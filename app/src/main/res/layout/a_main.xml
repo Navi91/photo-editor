@@ -44,7 +44,7 @@
             android:layout_gravity="center" />
 
         <EditText
-            android:id="@+id/helloWorldTextView"
+            android:id="@+id/messageEditText"
             style="@style/AppTextView.24.Center.Bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -11,4 +11,6 @@ interface EditorView : MvpView {
     fun showUploadPhotoDialog()
 
     fun setBackground(source: Any)
+
+    fun setMessageStyle(dark: Boolean)
 }

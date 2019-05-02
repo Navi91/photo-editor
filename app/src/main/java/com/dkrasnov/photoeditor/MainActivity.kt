@@ -3,13 +3,13 @@ package com.dkrasnov.photoeditor
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.Rect
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.res.ResourcesCompat
-import android.support.v4.widget.CircularProgressDrawable
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -28,7 +28,6 @@ import com.dkrasnov.photoeditor.glide.GlideApp
 import com.dkrasnov.photoeditor.stickers.data.StickerData
 import com.dkrasnov.photoeditor.stickers.presentation.StickerSelectionBottomSheetDialog
 import com.dkrasnov.photoeditor.uploadphoto.UploadPhotoBottomSheetDialog
-import com.dkrasnov.photoeditor.utils.convertToAssetsUriPath
 import kotlinx.android.synthetic.main.a_main.*
 
 class MainActivity : MvpAppCompatActivity(),
@@ -81,11 +80,6 @@ class MainActivity : MvpAppCompatActivity(),
             })
             adapter = backgroundSelectionAdapter
         }
-
-        GlideApp.with(this).load("backgrounds/bg_stars_center.png".convertToAssetsUriPath()).into(backgroundImageView)
-//        val source = ColorBackgroundSource(R.color.background_source_blue_from, R.color.background_source_blue_to)
-//        val item = SourceBackgroundSelectionItem(source, false)
-//        GlideApp.with(this).load(item.getThumb(this)).into(backgroundImageView)
     }
 
     override fun onAttachFragment(fragment: Fragment?) {
@@ -116,16 +110,21 @@ class MainActivity : MvpAppCompatActivity(),
     override fun setBackground(source: Any) {
         Log.d(TAG, "set background $source")
 
-        GlideApp.with(this).load(source)
+        GlideApp.with(this)
+            .load(source)
             .placeholder(backgroundImageView.drawable)
             .downsample(DownsampleStrategy.AT_MOST)
             .into(backgroundImageView)
+    }
 
-//        if (source is GradientDrawable) {
-//            backgroundImageView.setImageDrawable(source)
-//        } else {
-//            GlideApp.with(this).load(source).into(backgroundImageView)
-//        }
+    override fun setMessageStyle(dark: Boolean) {
+        val textColor = if (dark) {
+            Color.WHITE
+        } else {
+            ContextCompat.getColor(this, R.color.primaryTextColor)
+        }
+
+        messageEditText.setTextColor(textColor)
     }
 
     override fun setBackgroundSelectionItems(items: List<BackgroundSelectionItem>) {
@@ -157,7 +156,7 @@ class MainActivity : MvpAppCompatActivity(),
 
     override fun onFontSelected(font: Font) {
         val typeface = ResourcesCompat.getFont(this, font.fontRes)
-        helloWorldTextView.typeface = typeface
+        messageEditText.typeface = typeface
     }
 
     override fun showUploadPhotoDialog() {
@@ -174,4 +173,5 @@ class MainActivity : MvpAppCompatActivity(),
         val dialog = FontSelectionBottomSheetDialog.newInstance()
         dialog.show(supportFragmentManager, FontSelectionBottomSheetDialog.TAG)
     }
+
 }

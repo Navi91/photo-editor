@@ -41,6 +41,7 @@ class EditorPresenter(private val context: Context) : MvpPresenter<EditorView>()
         setSelectedItem(selectedItem)
         selectedItem.getSource(context)?.let { background ->
             viewState.setBackground(background)
+            viewState.setMessageStyle(selectedItem.isDark(context))
         }
     }
 

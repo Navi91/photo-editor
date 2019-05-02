@@ -1,5 +1,6 @@
 package com.dkrasnov.photoeditor.editor.presentation
 
+import android.content.Context
 import android.graphics.Bitmap
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
@@ -9,7 +10,7 @@ import com.dkrasnov.photoeditor.editor.presentation.backgroundselection.PlusBack
 import com.dkrasnov.photoeditor.editor.presentation.backgroundselection.SourceBackgroundSelectionItem
 
 @InjectViewState
-class EditorPresenter : MvpPresenter<EditorView>() {
+class EditorPresenter(private val context: Context) : MvpPresenter<EditorView>() {
 
     private val backgroundSourceRepository = BackgroundSourceRepository()
     private var backgroundSelectionItems = mutableListOf<BackgroundSelectionItem>()
@@ -28,6 +29,7 @@ class EditorPresenter : MvpPresenter<EditorView>() {
         }
 
         viewState.setBackgroundSelectionItems(backgroundSelectionItems)
+        viewState.setBackground(backgroundSelectionItems.first { it.selected })
     }
 
     fun selectBackgroundItem(selectedItem: BackgroundSelectionItem) {
@@ -37,12 +39,16 @@ class EditorPresenter : MvpPresenter<EditorView>() {
         }
 
         setSelectedItem(selectedItem)
+        selectedItem.getSource(context)?.let { background ->
+            viewState.setBackground(background)
+        }
     }
 
     fun setBackgroundPhoto(bitmap: Bitmap?) {
         bitmap ?: return
 
         setSelectedItem(backgroundSelectionItems.last())
+        viewState.setBackground(bitmap)
     }
 
     private fun setSelectedItem(selectedItem: BackgroundSelectionItem) {

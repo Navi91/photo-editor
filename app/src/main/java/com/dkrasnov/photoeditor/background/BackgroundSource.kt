@@ -27,6 +27,8 @@ class ColorBackgroundSource(@ColorRes val colorFromRes: Int, @ColorRes val color
 
 object StartBackgroundSource : BackgroundSource() {
 
+    val assetsPath = "backgrounds/bg_stars_center.png"
+
     override fun equals(other: Any?): Boolean {
         return other is StartBackgroundSource
     }

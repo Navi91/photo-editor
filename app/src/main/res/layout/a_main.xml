@@ -30,18 +30,31 @@
             android:src="@drawable/ic_toolbar_sticker" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/helloWorldTextView"
-        style="@style/AppTextView.24.Center.Bold"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_48"
-        android:layout_marginRight="@dimen/margin_48"
-        android:background="@android:color/transparent"
-        android:fontFamily="@font/roboto_regular"
-        android:hint="@string/editor_message_hint"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomBarLayout"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/backgroundImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+        <EditText
+            android:id="@+id/helloWorldTextView"
+            style="@style/AppTextView.24.Center.Bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/margin_48"
+            android:layout_marginRight="@dimen/margin_48"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="@string/editor_message_hint" />
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/bottomBarLayout"

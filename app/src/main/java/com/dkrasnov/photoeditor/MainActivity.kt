@@ -4,25 +4,31 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Rect
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.res.ResourcesCompat
+import android.support.v4.widget.CircularProgressDrawable
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.dkrasnov.photoeditor.editor.presentation.EditorPresenter
 import com.dkrasnov.photoeditor.editor.presentation.EditorView
 import com.dkrasnov.photoeditor.editor.presentation.backgroundselection.BackgroundSelectionAdapter
 import com.dkrasnov.photoeditor.editor.presentation.backgroundselection.BackgroundSelectionItem
-import com.dkrasnov.photoeditor.editor.presentation.backgroundselection.PlusBackgroundSelectionItem
 import com.dkrasnov.photoeditor.fonts.data.Font
 import com.dkrasnov.photoeditor.fonts.presentation.FontSelectionBottomSheetDialog
+import com.dkrasnov.photoeditor.glide.GlideApp
 import com.dkrasnov.photoeditor.stickers.data.StickerData
 import com.dkrasnov.photoeditor.stickers.presentation.StickerSelectionBottomSheetDialog
 import com.dkrasnov.photoeditor.uploadphoto.UploadPhotoBottomSheetDialog
+import com.dkrasnov.photoeditor.utils.convertToAssetsUriPath
 import kotlinx.android.synthetic.main.a_main.*
 
 class MainActivity : MvpAppCompatActivity(),
@@ -32,6 +38,9 @@ class MainActivity : MvpAppCompatActivity(),
     EditorView {
 
     companion object {
+
+        private const val TAG = "MainActivity"
+
         private const val UPLOAD_PHOTO_FROM_GALLERY_REQUEST_CODE = 100
         private const val MAKE_PHOTO_REQUEST_CODE = 101
     }
@@ -42,6 +51,9 @@ class MainActivity : MvpAppCompatActivity(),
     private val backgroundSelectionAdapter = BackgroundSelectionAdapter { item ->
         presenter.selectBackgroundItem(item)
     }
+
+    @ProvidePresenter
+    fun provideEditorPresenter() = EditorPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +81,11 @@ class MainActivity : MvpAppCompatActivity(),
             })
             adapter = backgroundSelectionAdapter
         }
+
+        GlideApp.with(this).load("backgrounds/bg_stars_center.png".convertToAssetsUriPath()).into(backgroundImageView)
+//        val source = ColorBackgroundSource(R.color.background_source_blue_from, R.color.background_source_blue_to)
+//        val item = SourceBackgroundSelectionItem(source, false)
+//        GlideApp.with(this).load(item.getThumb(this)).into(backgroundImageView)
     }
 
     override fun onAttachFragment(fragment: Fragment?) {
@@ -94,6 +111,21 @@ class MainActivity : MvpAppCompatActivity(),
                 presenter.setBackgroundPhoto(MediaStore.Images.Media.getBitmap(contentResolver, data?.data))
             }
         }
+    }
+
+    override fun setBackground(source: Any) {
+        Log.d(TAG, "set background $source")
+
+        GlideApp.with(this).load(source)
+            .placeholder(backgroundImageView.drawable)
+            .downsample(DownsampleStrategy.AT_MOST)
+            .into(backgroundImageView)
+
+//        if (source is GradientDrawable) {
+//            backgroundImageView.setImageDrawable(source)
+//        } else {
+//            GlideApp.with(this).load(source).into(backgroundImageView)
+//        }
     }
 
     override fun setBackgroundSelectionItems(items: List<BackgroundSelectionItem>) {

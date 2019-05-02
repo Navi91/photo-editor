@@ -2,6 +2,7 @@ package com.dkrasnov.photoeditor
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Rect
 import android.os.Bundle
 import android.provider.MediaStore
@@ -87,10 +88,10 @@ class MainActivity : MvpAppCompatActivity(),
 
         when (requestCode) {
             MAKE_PHOTO_REQUEST_CODE -> {
-
+                presenter.setBackgroundPhoto(data?.extras?.get("data") as? Bitmap)
             }
             UPLOAD_PHOTO_FROM_GALLERY_REQUEST_CODE -> {
-
+                presenter.setBackgroundPhoto(MediaStore.Images.Media.getBitmap(contentResolver, data?.data))
             }
         }
     }

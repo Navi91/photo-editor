@@ -1,5 +1,6 @@
 package com.dkrasnov.photoeditor.editor.presentation
 
+import android.graphics.Bitmap
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.dkrasnov.photoeditor.background.BackgroundSourceRepository
@@ -35,16 +36,30 @@ class EditorPresenter : MvpPresenter<EditorView>() {
             return
         }
 
+        setSelectedItem(selectedItem)
+    }
+
+    fun setBackgroundPhoto(bitmap: Bitmap?) {
+        bitmap ?: return
+
+        setSelectedItem(backgroundSelectionItems.last())
+    }
+
+    private fun setSelectedItem(selectedItem: BackgroundSelectionItem) {
         backgroundSelectionItems = backgroundSelectionItems.copy().apply {
             forEach { item ->
-                item.selected = item is SourceBackgroundSelectionItem && item.source == selectedItem.source
+                if (selectedItem is SourceBackgroundSelectionItem) {
+                    item.selected = item is SourceBackgroundSelectionItem && item.source == selectedItem.source
+                } else {
+                    item.selected = item is PlusBackgroundSelectionItem
+                }
             }
         }
 
         viewState.setBackgroundSelectionItems(backgroundSelectionItems)
     }
 
-    private fun List<BackgroundSelectionItem>.copy() : MutableList<BackgroundSelectionItem> {
+    private fun List<BackgroundSelectionItem>.copy(): MutableList<BackgroundSelectionItem> {
         val items = mutableListOf<BackgroundSelectionItem>()
 
         this.forEach { item ->

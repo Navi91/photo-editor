@@ -30,13 +30,16 @@
             android:src="@drawable/ic_toolbar_sticker" />
     </LinearLayout>
 
-    <TextView
+    <EditText
         android:id="@+id/helloWorldTextView"
         style="@style/AppTextView.24.Center.Bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_48"
+        android:layout_marginRight="@dimen/margin_48"
+        android:background="@android:color/transparent"
         android:fontFamily="@font/roboto_regular"
-        android:text="Hello World!"
+        android:hint="@string/editor_message_hint"
         app:layout_constraintBottom_toTopOf="@+id/bottomBarLayout"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,12 +61,12 @@
         <Button
             android:id="@+id/saveButton"
             style="?borderlessButtonStyle"
-            android:foreground="?selectableItemBackground"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/save_button_height"
             android:layout_marginStart="@dimen/margin_16"
             android:layout_marginEnd="@dimen/margin_16"
             android:background="@drawable/bg_save_button"
+            android:foreground="?selectableItemBackground"
             android:paddingLeft="@dimen/padding_16"
             android:paddingRight="@dimen/padding_16"
             android:text="@string/save"

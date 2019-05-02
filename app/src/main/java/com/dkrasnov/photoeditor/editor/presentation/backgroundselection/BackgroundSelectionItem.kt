@@ -1,4 +1,4 @@
-package com.dkrasnov.photoeditor.editor
+package com.dkrasnov.photoeditor.editor.presentation.backgroundselection
 
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
@@ -12,7 +12,9 @@ import com.dkrasnov.photoeditor.background.ColorBackgroundSource
 import com.dkrasnov.photoeditor.background.StartBackgroundSource
 
 sealed class BackgroundSelectionItem(var selected: Boolean = false)
-class SourceBackgroundSelectionItem(private val source: BackgroundSource) : BackgroundSelectionItem() {
+class SourceBackgroundSelectionItem(
+    val source: BackgroundSource, selected: Boolean
+) : BackgroundSelectionItem(selected) {
 
     fun getThumb(context: Context): Drawable? {
         return when (source) {
@@ -34,7 +36,6 @@ class SourceBackgroundSelectionItem(private val source: BackgroundSource) : Back
             }
         }
     }
-
 }
 
-object PlusBackgroundSelectionItem : BackgroundSelectionItem()
+class PlusBackgroundSelectionItem(selected: Boolean = false) : BackgroundSelectionItem(selected)

@@ -7,15 +7,16 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.res.ResourcesCompat
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.dkrasnov.photoeditor.background.BackgroundSourceRepository
-import com.dkrasnov.photoeditor.editor.BackgroundSelectionAdapter
-import com.dkrasnov.photoeditor.editor.BackgroundSelectionItem
-import com.dkrasnov.photoeditor.editor.PlusBackgroundSelectionItem
-import com.dkrasnov.photoeditor.editor.SourceBackgroundSelectionItem
+import com.arellomobile.mvp.MvpAppCompatActivity
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.dkrasnov.photoeditor.editor.presentation.EditorPresenter
+import com.dkrasnov.photoeditor.editor.presentation.EditorView
+import com.dkrasnov.photoeditor.editor.presentation.backgroundselection.BackgroundSelectionAdapter
+import com.dkrasnov.photoeditor.editor.presentation.backgroundselection.BackgroundSelectionItem
+import com.dkrasnov.photoeditor.editor.presentation.backgroundselection.PlusBackgroundSelectionItem
 import com.dkrasnov.photoeditor.fonts.data.Font
 import com.dkrasnov.photoeditor.fonts.presentation.FontSelectionBottomSheetDialog
 import com.dkrasnov.photoeditor.stickers.data.StickerData
@@ -23,13 +24,22 @@ import com.dkrasnov.photoeditor.stickers.presentation.StickerSelectionBottomShee
 import com.dkrasnov.photoeditor.uploadphoto.UploadPhotoBottomSheetDialog
 import kotlinx.android.synthetic.main.a_main.*
 
-class MainActivity : AppCompatActivity(),
+class MainActivity : MvpAppCompatActivity(),
     StickerSelectionBottomSheetDialog.StickerSelectionListener,
-    FontSelectionBottomSheetDialog.FontSelectionListener, UploadPhotoBottomSheetDialog.UploadPhotoDialogListener {
+    FontSelectionBottomSheetDialog.FontSelectionListener,
+    UploadPhotoBottomSheetDialog.UploadPhotoDialogListener,
+    EditorView {
 
     companion object {
         private const val UPLOAD_PHOTO_FROM_GALLERY_REQUEST_CODE = 100
-        private const val MAKE_PHOTO_REQUSET_CODE = 101
+        private const val MAKE_PHOTO_REQUEST_CODE = 101
+    }
+
+    @InjectPresenter
+    lateinit var presenter: EditorPresenter
+
+    private val backgroundSelectionAdapter = BackgroundSelectionAdapter { item ->
+        presenter.selectBackgroundItem(item)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,21 +48,6 @@ class MainActivity : AppCompatActivity(),
 
         fontImageView.setOnClickListener { showFontSelectionDialog() }
         selectStickerImageView.setOnClickListener { showStickerSelectionDialog() }
-
-
-        val items = mutableListOf<BackgroundSelectionItem>().apply {
-            addAll(BackgroundSourceRepository().getBackgroundSourceList().map { SourceBackgroundSelectionItem(it) })
-            add(PlusBackgroundSelectionItem)
-        }
-        items[0].selected = true
-
-        val adapter = BackgroundSelectionAdapter { item ->
-            if (item is PlusBackgroundSelectionItem) {
-                showUploadPhotoDialog()
-            }
-        }.apply {
-            setItems(items)
-        }
 
         backgroundSelectionRecyclerView.run {
             layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
@@ -71,7 +66,7 @@ class MainActivity : AppCompatActivity(),
                         resources.getDimensionPixelSize(R.dimen.background_sticker_selection_item_padding_right)
                 }
             })
-            this.adapter = adapter
+            adapter = backgroundSelectionAdapter
         }
     }
 
@@ -91,13 +86,17 @@ class MainActivity : AppCompatActivity(),
         if (resultCode == Activity.RESULT_CANCELED) return
 
         when (requestCode) {
-            MAKE_PHOTO_REQUSET_CODE -> {
+            MAKE_PHOTO_REQUEST_CODE -> {
 
             }
             UPLOAD_PHOTO_FROM_GALLERY_REQUEST_CODE -> {
 
             }
         }
+    }
+
+    override fun setBackgroundSelectionItems(items: List<BackgroundSelectionItem>) {
+        backgroundSelectionAdapter.setItems(items)
     }
 
     override fun onStickerSelected(stickerData: StickerData) {
@@ -120,15 +119,15 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onRequestUploadPhotoFromCamera() {
-        startActivityForResult(Intent(MediaStore.ACTION_IMAGE_CAPTURE), MAKE_PHOTO_REQUSET_CODE)
+        startActivityForResult(Intent(MediaStore.ACTION_IMAGE_CAPTURE), MAKE_PHOTO_REQUEST_CODE)
     }
 
-    override fun onFoneSelected(font: Font) {
+    override fun onFontSelected(font: Font) {
         val typeface = ResourcesCompat.getFont(this, font.fontRes)
         helloWorldTextView.typeface = typeface
     }
 
-    private fun showUploadPhotoDialog() {
+    override fun showUploadPhotoDialog() {
         val dialog = UploadPhotoBottomSheetDialog.newInstance()
         dialog.show(supportFragmentManager, UploadPhotoBottomSheetDialog.TAG)
     }

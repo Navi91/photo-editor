@@ -27,15 +27,15 @@ class FontSelectionBottomSheetDialog : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         robotoTextView.setOnClickListener {
-            listener?.onFoneSelected(Font.ROBOTO)
+            listener?.onFontSelected(Font.ROBOTO)
             dismiss()
         }
         amaticTextView.setOnClickListener {
-            listener?.onFoneSelected(Font.AMATIC)
+            listener?.onFontSelected(Font.AMATIC)
             dismiss()
         }
         lobsterTextView.setOnClickListener {
-            listener?.onFoneSelected(Font.LOBSTER)
+            listener?.onFontSelected(Font.LOBSTER)
             dismiss()
         }
     }
@@ -45,6 +45,6 @@ class FontSelectionBottomSheetDialog : BottomSheetDialogFragment() {
     }
 
     interface FontSelectionListener {
-        fun onFoneSelected(font: Font)
+        fun onFontSelected(font: Font)
     }
 }

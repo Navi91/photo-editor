@@ -1,5 +1,8 @@
-package com.dkrasnov.photoeditor.editor
+package com.dkrasnov.photoeditor.editor.presentation.backgroundselection
 
+import android.support.v7.recyclerview.extensions.AsyncDifferConfig
+import android.support.v7.recyclerview.extensions.AsyncListDiffer
+import android.support.v7.util.AdapterListUpdateCallback
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -12,13 +15,13 @@ class BackgroundSelectionAdapter(
     private val selectCallback: (BackgroundSelectionItem) -> Unit
 ) : RecyclerView.Adapter<BackgroundSelectionAdapter.BackgroundSelectionViewHolder>() {
 
-    private val items = mutableListOf<BackgroundSelectionItem>()
+    private val itemsDiffer = AsyncListDiffer<BackgroundSelectionItem>(
+        AdapterListUpdateCallback(this),
+        AsyncDifferConfig.Builder<BackgroundSelectionItem>(BackgroundSelectionDiffCallback()).build()
+    )
 
     fun setItems(items: List<BackgroundSelectionItem>) {
-        this.items.run {
-            clear()
-            addAll(items)
-        }
+        itemsDiffer.submitList(mutableListOf<BackgroundSelectionItem>().apply { addAll(items) })
     }
 
     override fun onCreateViewHolder(container: ViewGroup, p1: Int): BackgroundSelectionViewHolder {
@@ -27,11 +30,7 @@ class BackgroundSelectionAdapter(
                 .inflate(R.layout.v_background_selection_item, container, false)
         ).apply {
             itemView.setOnClickListener {
-                val item = items[adapterPosition]
-                items.forEach { it.selected = false }
-                item.selected = true
-                notifyDataSetChanged()
-                selectCallback.invoke(item)
+                selectCallback.invoke(getItem(adapterPosition))
             }
             itemView.imageView.clipToOutline = true
         }
@@ -41,12 +40,14 @@ class BackgroundSelectionAdapter(
         viewHolder.bind(position)
     }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = itemsDiffer.currentList.size
+
+    private fun getItem(position: Int): BackgroundSelectionItem = itemsDiffer.currentList[position]
 
     inner class BackgroundSelectionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(position: Int) {
-            val item = items[position]
+            val item = getItem(position)
 
             itemView.selectionView.setVisible(item.selected)
 

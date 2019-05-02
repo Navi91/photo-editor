@@ -27,7 +27,7 @@ class ColorBackgroundSource(@ColorRes val colorFromRes: Int, @ColorRes val color
 
 object StartBackgroundSource : BackgroundSource() {
 
-    val assetsPath = "backgrounds/bg_stars_center.png"
+    const val assetsPath = "backgrounds/bg_stars_center.png"
 
     override fun equals(other: Any?): Boolean {
         return other is StartBackgroundSource
@@ -35,6 +35,10 @@ object StartBackgroundSource : BackgroundSource() {
 }
 
 object BeachBackgroundSource : BackgroundSource() {
+
+    const val bottomAssetsPath = "backgrounds/bg_beach_bottom.png"
+    const val centerAssetsPath = "backgrounds/bg_beach_center.png"
+    const val topAssetsPath = "backgrounds/bg_beach_top.png"
 
     override fun equals(other: Any?): Boolean {
         return other is BeachBackgroundSource

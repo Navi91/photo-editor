@@ -1,6 +1,9 @@
 package com.dkrasnov.photoeditor.editor.presentation.backgroundselection
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -31,7 +34,38 @@ class SourceBackgroundSelectionItem(
                 )
             )
             is StartBackgroundSource -> source.assetsPath.convertToAssetsUriPath()
-            else -> null
+            is BeachBackgroundSource -> {
+                val assetManager = context.assets
+
+                val options = BitmapFactory.Options().apply {
+                    inMutable = true
+                }
+
+                val centerBitmap = BitmapFactory.decodeStream(assetManager.open(source.centerAssetsPath),
+                    null,
+                    options) ?: return null
+
+                val width = centerBitmap.width
+
+                val topBitmap = BitmapFactory.decodeStream(assetManager.open(source.topAssetsPath)).let { bitmap ->
+                    Bitmap.createScaledBitmap(bitmap, width, bitmap.height, false)
+                }
+                val bottomBitmap = BitmapFactory.decodeStream(assetManager.open(source.bottomAssetsPath)).let { bitmap ->
+                    Bitmap.createScaledBitmap(bitmap, width, bitmap.height, false)
+                }
+
+               Canvas(centerBitmap).apply {
+                    drawBitmap(topBitmap, 0f, 0f, null)
+                    drawBitmap(
+                        bottomBitmap,
+                        0f,
+                        (centerBitmap.height - bottomBitmap.height).toFloat(),
+                        null
+                    )
+                }
+
+                centerBitmap
+            }
         }
     }
 

@@ -123,8 +123,16 @@ class MainActivity : MvpAppCompatActivity(),
         } else {
             ContextCompat.getColor(this, R.color.primaryTextColor)
         }
+        val hintTextColor = if (dark) {
+            ContextCompat.getColor(this, R.color.hintTextColorDark)
+        } else {
+            ContextCompat.getColor(this, R.color.hintTextColor)
+        }
 
-        messageEditText.setTextColor(textColor)
+        messageEditText.run {
+            setTextColor(textColor)
+            setHintTextColor(hintTextColor)
+        }
     }
 
     override fun setBackgroundSelectionItems(items: List<BackgroundSelectionItem>) {

@@ -8,6 +8,7 @@ import com.dkrasnov.photoeditor.background.BackgroundSourceRepository
 import com.dkrasnov.photoeditor.editor.presentation.backgroundselection.BackgroundSelectionItem
 import com.dkrasnov.photoeditor.editor.presentation.backgroundselection.PlusBackgroundSelectionItem
 import com.dkrasnov.photoeditor.editor.presentation.backgroundselection.SourceBackgroundSelectionItem
+import com.dkrasnov.photoeditor.utils.isDark
 
 @InjectViewState
 class EditorPresenter(private val context: Context) : MvpPresenter<EditorView>() {
@@ -50,6 +51,11 @@ class EditorPresenter(private val context: Context) : MvpPresenter<EditorView>()
 
         setSelectedItem(backgroundSelectionItems.last())
         viewState.setBackground(bitmap)
+
+        val scaledBitmap = Bitmap.createScaledBitmap(bitmap, 1, 1, false)
+        val pixelColor = scaledBitmap.getPixel(0, 0)
+
+        viewState.setMessageStyle(pixelColor.isDark())
     }
 
     private fun setSelectedItem(selectedItem: BackgroundSelectionItem) {

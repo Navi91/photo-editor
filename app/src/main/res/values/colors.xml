@@ -5,6 +5,8 @@
     <color name="colorAccent">#528BCC</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="primaryTextColor">#2C2D2E</color>
+    <color name="hintTextColor">#992C2D2E</color>
+    <color name="hintTextColorDark">#99FFFFFF</color>
     <color name="background_source_white">#FFFFFF</color>
     <color name="background_source_white_thumb">#EBEBEB</color>
     <color name="background_source_blue_from">#30F2D2</color>

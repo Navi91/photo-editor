@@ -1,6 +1,8 @@
 package com.dkrasnov.photoeditor
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -20,6 +22,7 @@ import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
+import com.dkrasnov.photoeditor.editor.StickerTouchListener
 import com.dkrasnov.photoeditor.editor.presentation.EditorPresenter
 import com.dkrasnov.photoeditor.editor.presentation.EditorView
 import com.dkrasnov.photoeditor.editor.presentation.backgroundselection.BackgroundSelectionAdapter
@@ -30,7 +33,15 @@ import com.dkrasnov.photoeditor.glide.GlideApp
 import com.dkrasnov.photoeditor.stickers.data.StickerData
 import com.dkrasnov.photoeditor.stickers.presentation.StickerSelectionBottomSheetDialog
 import com.dkrasnov.photoeditor.uploadphoto.UploadPhotoBottomSheetDialog
+import com.dkrasnov.photoeditor.utils.background
+import com.dkrasnov.photoeditor.utils.observeMain
+import com.dkrasnov.photoeditor.utils.setVisible
+import com.dkrasnov.photoeditor.utils.visible
+import io.reactivex.Completable
+import io.reactivex.Scheduler
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.a_main.*
+import java.io.ByteArrayOutputStream
 
 class MainActivity : MvpAppCompatActivity(),
     StickerSelectionBottomSheetDialog.StickerSelectionListener,
@@ -62,6 +73,7 @@ class MainActivity : MvpAppCompatActivity(),
 
         fontImageView.setOnClickListener { showFontSelectionDialog() }
         selectStickerImageView.setOnClickListener { showStickerSelectionDialog() }
+        saveButton.setOnClickListener { savePhoto() }
 
         backgroundSelectionRecyclerView.run {
             layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
@@ -82,6 +94,8 @@ class MainActivity : MvpAppCompatActivity(),
             })
             adapter = backgroundSelectionAdapter
         }
+
+        messageEditText.setOnTouchListener { v, event -> false }
     }
 
     override fun onAttachFragment(fragment: Fragment?) {
@@ -120,33 +134,36 @@ class MainActivity : MvpAppCompatActivity(),
     }
 
     override fun setMessageStyle(dark: Boolean) {
-//        val textColor = if (dark) {
-//            Color.WHITE
-//        } else {
-//            ContextCompat.getColor(this, R.color.primaryTextColor)
-//        }
-//        val hintTextColor = if (dark) {
-//            ContextCompat.getColor(this, R.color.hintTextColorDark)
-//        } else {
-//            ContextCompat.getColor(this, R.color.hintTextColor)
-//        }
-//
-//        messageEditText.run {
-//            setTextColor(textColor)
-//            setHintTextColor(hintTextColor)
-//        }
+        val textColor = if (dark) {
+            Color.WHITE
+        } else {
+            ContextCompat.getColor(this, R.color.primaryTextColor)
+        }
+        val hintTextColor = if (dark) {
+            ContextCompat.getColor(this, R.color.hintTextColorDark)
+        } else {
+            ContextCompat.getColor(this, R.color.hintTextColor)
+        }
+
+        messageEditText.run {
+            setTextColor(textColor)
+            setHintTextColor(hintTextColor)
+        }
     }
 
     override fun setBackgroundSelectionItems(items: List<BackgroundSelectionItem>) {
         backgroundSelectionAdapter.setItems(items)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onStickerSelected(stickerData: StickerData) {
         val imageView = ImageView(this)
         val sizePx = resources.getDimensionPixelSize(R.dimen.sticker_image_view_default_size)
         val params = FrameLayout.LayoutParams(sizePx, sizePx)
 
-//        stickersLayout.addView(imageView, params)
+        stickersLayout.addView(imageView, params)
+
+        imageView.setOnTouchListener(StickerTouchListener(imageView))
 
         GlideApp.with(imageView).load(stickerData.getUri()).into(imageView)
     }
@@ -190,4 +207,39 @@ class MainActivity : MvpAppCompatActivity(),
         dialog.show(supportFragmentManager, FontSelectionBottomSheetDialog.TAG)
     }
 
+    private fun savePhoto() {
+        saveButton.isEnabled = false
+
+        messageEditText.setVisible(messageEditText.text.isNotEmpty())
+        messageEditText.clearFocus()
+        contentLayout.isDrawingCacheEnabled = true
+
+        saveBitmapCompletable(contentLayout.drawingCache).background().subscribe {
+            saveButton.isEnabled = true
+            contentLayout.isDrawingCacheEnabled = false
+            messageEditText.visible()
+        }
+    }
+
+    private fun saveBitmapCompletable(bitmap: Bitmap): Completable {
+        return Completable.fromCallable {
+            Log.d(TAG, "save photo type")
+
+            MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Photo" , "photo")
+
+//            val outputStream = ByteArrayOutputStream()
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 95, outputStream)
+//            val bitmapData = outputStream.toByteArray()
+//
+//            Log.d(TAG, "save photo bitmap compressed")
+//
+//            openFileOutput("temp.png", Context.MODE_PRIVATE).use {
+//                it.write(bitmapData)
+//                it.flush()
+//                it.close()
+//            }
+
+            Log.d(TAG, "save photo finish")
+        }
+    }
 }

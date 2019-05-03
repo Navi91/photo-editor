@@ -5,5 +5,5 @@ import com.dkrasnov.photoeditor.utils.convertToAssetsUriPath
 
 data class StickerData(val path: String) {
 
-    fun getUri() = Uri.parse(path.convertToAssetsUriPath())
+    fun getUri(): Uri = Uri.parse(path.convertToAssetsUriPath())
 }

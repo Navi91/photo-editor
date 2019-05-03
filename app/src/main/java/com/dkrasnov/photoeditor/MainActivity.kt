@@ -14,6 +14,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
+import android.widget.FrameLayout
+import android.widget.ImageView
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -118,21 +120,21 @@ class MainActivity : MvpAppCompatActivity(),
     }
 
     override fun setMessageStyle(dark: Boolean) {
-        val textColor = if (dark) {
-            Color.WHITE
-        } else {
-            ContextCompat.getColor(this, R.color.primaryTextColor)
-        }
-        val hintTextColor = if (dark) {
-            ContextCompat.getColor(this, R.color.hintTextColorDark)
-        } else {
-            ContextCompat.getColor(this, R.color.hintTextColor)
-        }
-
-        messageEditText.run {
-            setTextColor(textColor)
-            setHintTextColor(hintTextColor)
-        }
+//        val textColor = if (dark) {
+//            Color.WHITE
+//        } else {
+//            ContextCompat.getColor(this, R.color.primaryTextColor)
+//        }
+//        val hintTextColor = if (dark) {
+//            ContextCompat.getColor(this, R.color.hintTextColorDark)
+//        } else {
+//            ContextCompat.getColor(this, R.color.hintTextColor)
+//        }
+//
+//        messageEditText.run {
+//            setTextColor(textColor)
+//            setHintTextColor(hintTextColor)
+//        }
     }
 
     override fun setBackgroundSelectionItems(items: List<BackgroundSelectionItem>) {
@@ -140,7 +142,13 @@ class MainActivity : MvpAppCompatActivity(),
     }
 
     override fun onStickerSelected(stickerData: StickerData) {
+        val imageView = ImageView(this)
+        val sizePx = resources.getDimensionPixelSize(R.dimen.sticker_image_view_default_size)
+        val params = FrameLayout.LayoutParams(sizePx, sizePx)
 
+//        stickersLayout.addView(imageView, params)
+
+        GlideApp.with(imageView).load(stickerData.getUri()).into(imageView)
     }
 
     override fun onRequestUploadPhotoFromGallery() {

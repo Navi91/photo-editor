@@ -43,6 +43,11 @@
             android:layout_height="match_parent"
             android:layout_gravity="center" />
 
+        <FrameLayout
+            android:id="@+id/stickersLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <EditText
             android:id="@+id/messageEditText"
             style="@style/AppTextView.24.Center.Bold"
